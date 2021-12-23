@@ -144,6 +144,7 @@ def register(filenames, telescope, sex_snr, source_minarea, aprad,
 
         # get extent on the sky for a single frame
         ra, dec, rad = toolbox.skycenter(ldac_catalogs)
+        print('RA,DEC,RAD from LDAC_cat:',ra,dec,rad)
         logging.info(('FoV center ({:.7f}/{:+.7f}) and '
                       'radius ({:.2f} deg) derived').format(
                           ra, dec, rad))

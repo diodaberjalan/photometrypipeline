@@ -176,10 +176,8 @@ def moving_primary_target(catalogs, man_targetname, offset, is_asteroid=None,
         print('# check JPL Horizons for primary target... ')
         sys.stdout.flush()
     logging.info('check JPL Horizons for primary target')
-
-    obsparam = _pp_conf.telescope_parameters[
-        catalogs[0].origin.split(';')[0].strip()]
-
+    obsparam = _pp_conf.telescope_parameters[catalogs[0].origin.split(';')[0].strip()]
+#    obsparam = _pp_conf.telescope_parameters[telescope]
     objects = []
 
     # check for target nature, if unknown
@@ -386,7 +384,7 @@ def serendipitous_asteroids(catalogs, display=True):
                        'in catalog "{:s}"').format(catalogs[0].catalogname))
         return []
 
-    maglims = [np.percentile(cat[band_key], 90) for cat in catalogs]
+    maglims = [np.percentile(cat[band_key], 30) for cat in catalogs]
 
     # maximum positional uncertainty = 5 px (unbinned)
     obsparam = _pp_conf.telescope_parameters[
@@ -644,7 +642,7 @@ def distill(catalogs, man_targetname, offset, fixed_targets_file, posfile,
                    'mag    sig     source_ra    source_dec   [1]   [2]   ' +
                    '[3]   [4]    [5]       ZP ZP_sig inst_mag ' +
                    'in_sig               [6] [7] [8]    [9]          [10] ' +
-                   'FWHM"\n')
+                   'FWHM"   Airmass \n')
 
         for dat in data:
             # sort measured magnitudes by target
@@ -684,6 +682,9 @@ def distill(catalogs, man_targetname, offset, fixed_targets_file, posfile,
                 else:
                     outf.write(' ')
                     output[target].append(dat)
+                fname = dat[10][:dat[10].find('.ldac')]+'.fits'
+                hdu = fits.open(fname, ignore_missing_end=True)
+                airmass = hdu[0].header['AIRMASS']
                 outf.write(('%35.35s ' % dat[10].replace(' ', '_')) +
                            ('%15.7f ' % dat[9][0]) +
                            ('%8.4f ' % dat[7]) +
@@ -704,9 +705,10 @@ def distill(catalogs, man_targetname, offset, fixed_targets_file, posfile,
                            ('%3d ' % dat[14]) +
                            ('%s' % dat[13].split(';')[0]) +
                            ('%10s ' % _pp_conf.photmode) +
-                           ('%4.2f\n' % (dat[15]*3600)))
+                           ('%4.2f ' % (dat[15]*3600)) +
+                           ('%13.8f\n' % airmass))
                 output['targetframes'][target].append(dat[10][:-4]+'fits')
-
+        
         outf.writelines('#\n# [1]: predicted_RA - source_RA [arcsec]\n' +
                         '# [2]: predicted_Dec - source_Dec [arcsec]\n' +
                         '# [3,4]: manual target offsets in RA and DEC ' +

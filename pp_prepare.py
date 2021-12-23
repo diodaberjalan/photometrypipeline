@@ -326,13 +326,18 @@ def prepare(filenames, obsparam, header_update, keep_wcs=False,
 
         # read out ra and dec from header
         if obsparam['radec_separator'] == 'XXX':
-            ra_deg = float(header[obsparam['ra']])
+            ra_deg = float(header[obsparam['ra']])*360/23.9344696
+            print(ra_deg)
             dec_deg = float(header[obsparam['dec']])
+            print(dec_deg)
         else:
-            ra_string = header[obsparam['ra']].split(
-                obsparam['radec_separator'])
-            dec_string = header[obsparam['dec']].split(
-                obsparam['radec_separator'])
+            ra_string = header[obsparam['ra']].split(obsparam['radec_separator'])
+            print(ra_string)
+            if (ra_string[0]==''): #<-- Added this
+                ra_string.pop(0)
+            dec_string = header[obsparam['dec']].split(obsparam['radec_separator'])
+            if (dec_string[0]==''): #<-- Added this
+                dec_string.pop(0)
             ra_deg = 15.*(float(ra_string[0]) +
                           float(ra_string[1]) / 60. +
                           float(ra_string[2]) / 3600.)

@@ -206,7 +206,7 @@ def run_the_pipeline(filenames, man_targetname, man_filtername,
                 summary_message = "<FONT COLOR=\"red\">registration failed</FONT>"
             elif len(registration['goodfits']) == len(filenames):
                 summary_message = "<FONT COLOR=\"green\">all images registered" + \
-                    "</FONT>; "
+                    ("</FONT>; ")
                 break
             else:
                 summary_message = "<FONT COLOR=\"orange\">registration failed for " + \
@@ -220,7 +220,8 @@ def run_the_pipeline(filenames, man_targetname, man_filtername,
 
         # add information to summary website, if requested
         if _pp_conf.use_diagnostics_summary:
-            diag.insert_into_summary(summary_message)
+            iiiii=1
+ #           diag.insert_into_summary(summary_message) 
 
         # in case not all image were registered successfully
         filenames = registration['goodfits']
@@ -265,7 +266,9 @@ def run_the_pipeline(filenames, man_targetname, man_filtername,
 
     # add information to summary website, if requested
     if _pp_conf.use_diagnostics_summary:
-        diag.insert_into_summary(summary_message)
+        iiii=1
+ #
+#       diag.insert_into_summary(summary_message)
 
     # run photometric calibration
     minstars = _pp_conf.minstars
@@ -312,7 +315,8 @@ def run_the_pipeline(filenames, man_targetname, man_filtername,
 
     # add information to summary website, if requested
     if _pp_conf.use_diagnostics_summary:
-        diag.insert_into_summary(summary_message)
+        iiii=2
+ #       diag.insert_into_summary(summary_message)
 
     # distill photometry results
     print('\n----- distill photometry results\n')
@@ -335,7 +339,8 @@ def run_the_pipeline(filenames, man_targetname, man_filtername,
 
     # add information to summary website, if requested
     if _pp_conf.use_diagnostics_summary:
-        diag.insert_into_summary(summary_message)
+        iiii=4
+#        diag.insert_into_summary(summary_message)
 
     print('\nDone!\n')
     logging.info('----- successfully done with this process ----')
@@ -399,7 +404,7 @@ if __name__ == '__main__':
 
         # dump data set information into summary file
         _pp_conf.use_diagnostics_summary = True
-        diag.create_summary()
+#        diag.create_summary()
 
         # turn prefix and fits suffixes into regular expression
         if prefix is None:
@@ -423,7 +428,7 @@ if __name__ == '__main__':
 
                 run_the_pipeline(filenames, man_targetname, man_filtername,
                                  fixed_aprad, source_tolerance, solar,
-                                 rerun_registration, asteroids)
+                                 rerun_registration, asteroids, keep_wcs)
                 os.chdir(_masterroot_directory)
             else:
                 print('\n NOTHING TO DO IN %s' % root)

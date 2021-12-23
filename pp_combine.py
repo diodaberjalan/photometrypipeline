@@ -227,7 +227,7 @@ def combine(filenames, obsparam, comoving, targetname,
         n_frames = len(filenames)
 
     # run swarp on all image catalogs using different catalogs
-    commandline = (('swarp -combine Y -combine_type %s -delete_tmpfiles ' +
+    commandline = (('SWarp -combine Y -combine_type %s -delete_tmpfiles '+
                     'Y -imageout_name %s -interpolate Y -subtract_back %s ' +
                     '-weight_type NONE -copy_keywords %s -write_xml N ' +
                     '-CENTER_TYPE MOST %s') %

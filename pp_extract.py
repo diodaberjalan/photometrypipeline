@@ -173,6 +173,7 @@ def extract_singleframe(data):
     # update image header with aperture radius and other information
     hdu = fits.open(filename, mode='update', ignore_missing_end=True)
     obsparam = param['obsparam']
+    print(obsparam['obsmidtime_jd'])
     # observation midtime
     if obsparam['obsmidtime_jd'] in hdu[0].header:
         midtimjd = hdu[0].header[obsparam['obsmidtime_jd']]
